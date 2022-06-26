@@ -6,7 +6,8 @@ import axios from 'axios'
 function App() {
   const [state, setState] = useState({
     name:"",
-    file:""
+    file:"",
+    fileArray:[]
 
   })
 
@@ -19,6 +20,9 @@ function App() {
   const formdata=new FormData();
   formdata.append("file",state.file) ;
   formdata.append("name",state.name);
+
+  formdata.append("filesarray",state.fileArray);
+ 
 
 
   const config={
@@ -47,12 +51,20 @@ axios.post("http://localhost:8080/upload",formdata,config).then(response=>{
 
   }
 
+  const handleMultipleFileChange=(event)=>{
+    setState({...state,fileArray:event.target.files});
+
+
+  }
+
   return (
     <div className="App">
 
-      <input type="text"  onChange={handleChange}/>
+      <input type="text"   onChange={handleChange}/>
 
-      <input type="file" onChange={handleFileChange} />
+      <input type="file"  onChange={handleFileChange} />
+
+      <input type="file" multiple onChange={handleMultipleFileChange} />
 
 
 
